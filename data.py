@@ -168,6 +168,19 @@ armour = {
     },
 }
 
+# Hero Dictionary
+hero_templates = {
+    "Barbarian": {
+        "movement": 0,
+        "base_attack": 0,
+        "base_defend": 2,
+        "hp": 8,
+        "mp": 2,
+        "primary_weapon": "Broadsword",
+    }
+}
+
+
 # Monster Dictionary
 monster_templates = {
     "Zombie": {
