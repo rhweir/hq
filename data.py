@@ -1,4 +1,10 @@
-# Weapon dictionary
+# ==========================================
+# HEROQUEST UK EDITION DATA
+# ==========================================
+
+# Weapon dictionary (UK Prices and Stats)
+# Note: In the UK, weapons like the Battle Axe and Staff
+# prevent the use of a Shield (Two-handed).
 weapons = {
     "Dagger": {
         "cost": 25,
@@ -110,10 +116,10 @@ weapons = {
     },
 }
 
-# Armour Dictionary
+# Armour Dictionary (UK Prices)
 armour = {
     "Helmet": {
-        "cost": 125,
+        "cost": 120,  # UK Price
         "defence_bonus": 1,
         "wizard_ok": False,
         "is_body_armour": False,
@@ -122,7 +128,7 @@ armour = {
         "slot": "head",
     },
     "Shield": {
-        "cost": 150,
+        "cost": 100,  # UK Price
         "defence_bonus": 1,
         "wizard_ok": False,
         "is_body_armour": False,
@@ -130,17 +136,8 @@ armour = {
         "move_penalty": 0,
         "slot": "off_hand",
     },
-    "Bracers": {
-        "cost": 200,
-        "defence_bonus": 1,
-        "wizard_ok": True,
-        "is_body_armour": False,
-        "is_off_hand": False,
-        "move_penalty": 0,
-        "slot": "arm",
-    },
     "Chain Mail": {
-        "cost": 500,
+        "cost": 450,  # UK Price
         "defence_bonus": 1,
         "wizard_ok": False,
         "is_body_armour": True,
@@ -149,12 +146,12 @@ armour = {
         "slot": "body",
     },
     "Plate Mail": {
-        "cost": 850,
+        "cost": 500,  # UK Price (Armor)
         "defence_bonus": 2,
         "wizard_ok": False,
         "is_body_armour": True,
         "is_off_hand": False,
-        "move_penalty": 1,
+        "move_penalty": 1,  # Often played as half-movement roll in UK
         "slot": "body",
     },
     "Empty": {
@@ -168,7 +165,7 @@ armour = {
     },
 }
 
-# Hero Dictionary
+# Hero Dictionary (UK Starting Equipment)
 hero_templates = {
     "Barbarian": {
         "movement": 0,
@@ -197,35 +194,34 @@ hero_templates = {
     "Wizard": {
         "movement": 0,
         "attack": 0,
-        "defend": 2,
+        "defend": 2,  # Note: In UK manual Wizard defends with 2, but often played with 1
         "hp": 4,
         "mp": 6,
         "primary_weapon": "Dagger",
     },
 }
 
-
-# Monster Dictionary
+# Monster Dictionary (Strict UK Stats - All 1 HP)
 monster_templates = {
+    "Goblin": {
+        "movement": 10,
+        "attack": 2,
+        "defend": 1,
+        "hp": 1,
+        "mp": 1,
+    },
+    "Skeleton": {
+        "movement": 6,
+        "attack": 2,
+        "defend": 2,
+        "hp": 1,
+        "mp": 0,
+    },
     "Zombie": {
         "movement": 5,
         "attack": 2,
         "defend": 3,
         "hp": 1,
-        "mp": 0,
-    },
-    "Mummy": {
-        "movement": 4,
-        "attack": 3,
-        "defend": 4,
-        "hp": 2,
-        "mp": 0,
-    },
-    "Gargoyle": {
-        "movement": 6,
-        "attack": 4,
-        "defend": 5,
-        "hp": 3,
         "mp": 0,
     },
     "Orc": {
@@ -235,39 +231,32 @@ monster_templates = {
         "hp": 1,
         "mp": 2,
     },
-    "Skeleton": {
+    "Fimir": {
         "movement": 6,
-        "attack": 2,
-        "defend": 2,
+        "attack": 3,
+        "defend": 3,
         "hp": 1,
-        "mp": 0,
+        "mp": 3,
     },
-    "Goblin": {
-        "movement": 6,
-        "attack": 2,
-        "defend": 2,
+    "Mummy": {
+        "movement": 4,
+        "attack": 3,
+        "defend": 4,
         "hp": 1,
         "mp": 0,
     },
     "Chaos Warrior": {
         "movement": 6,
-        "attack": 2,
-        "defend": 2,
+        "attack": 4,
+        "defend": 4,
         "hp": 1,
-        "mp": 0,
+        "mp": 3,
     },
-    "Fimir": {
+    "Gargoyle": {
         "movement": 6,
-        "attack": 2,
-        "defend": 2,
+        "attack": 4,
+        "defend": 5,
         "hp": 1,
-        "mp": 0,
-    },
-    "Chaos Warlock": {
-        "movement": 6,
-        "attack": 2,
-        "defend": 2,
-        "hp": 1,
-        "mp": 0,
+        "mp": 4,
     },
 }
