@@ -173,6 +173,7 @@ if __name__ == "__main__":
         print(f"Weapon: Unarmed")
         # Base Attack (0) + Unarmed Bonus (1) = 1
         print(f"Total Attack Dice: {merlin.calculate_attack_dice()}")
+        print(f"Total Defence Dice: {merlin.calculate_defence_dice()}")
 
     # 3. Test Monster Spawning
     grunt = spawn_monster("Orc", x=5, y=5)
