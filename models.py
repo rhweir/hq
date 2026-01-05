@@ -58,6 +58,9 @@ class Entity:
 
         print(f"{self.char_class} takes {amount} damage! HP is now {self.hp}")
 
+        if self.hp == 0:
+            print(f"!!! {self.char_class} has been slain !!!")
+
         return self.hp > 0
 
     def perform_attack(self, target):
@@ -217,3 +220,11 @@ if __name__ == "__main__":
     if hero and orc:
         print(f"TEST: {hero.name} has {hero.calculate_attack_dice()} attack dice.")
         print(f"TEST: {orc.char_class} has {orc.calculate_attack_dice()} attack dice.")
+
+    if hero and orc:
+        # Let's see them fight!
+        hero.perform_attack(orc)
+
+        # If the orc survives, he hits back
+        if orc.hp > 0:
+            orc.perform_attack(hero)
