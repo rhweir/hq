@@ -221,10 +221,19 @@ if __name__ == "__main__":
         print(f"TEST: {hero.name} has {hero.calculate_attack_dice()} attack dice.")
         print(f"TEST: {orc.char_class} has {orc.calculate_attack_dice()} attack dice.")
 
-    if hero and orc:
-        # Let's see them fight!
+if hero and orc:
+    print(f"A wild {orc.char_class} appears!")
+
+    # Keep fighting as long as both have HP
+    while hero.hp > 0 and orc.hp > 0:
         hero.perform_attack(orc)
 
-        # If the orc survives, he hits back
         if orc.hp > 0:
             orc.perform_attack(hero)
+
+        print("-" * 25)
+
+    if hero.hp > 0:
+        print(f"VICTORY: {hero.name} survived with {hero.hp} HP!")
+    else:
+        print("DEFEAT: The dungeon has claimed another soul.")
