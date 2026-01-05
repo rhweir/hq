@@ -1,10 +1,25 @@
 import random
 import data
-from dice import Dice
 
 # ==========================================
 # 1. BASE CLASSES
 # ==========================================
+
+
+class Dice:
+
+    @staticmethod
+    def combat(num_dice):
+        results = {"skulls": 0, "white_shields": 0, "black_shields": 0}
+        for _ in range(num_dice):
+            roll = random.randint(1, 6)
+            if roll <= 3:  # 1, 2, 3
+                results["skulls"] += 1
+            elif roll <= 5:  # 4, 5
+                results["white_shields"] += 1
+            else:
+                results["black_shields"] += 1
+        return results
 
 
 class Entity:
@@ -32,6 +47,26 @@ class Entity:
 
     def calculate_defence_dice(self):
         return self.base_defend
+
+    def take_damage(self, amount):
+        """Reduces HP and returns True if alive, False if dead"""
+        self.hp -= amount
+
+        # Prevent HP from being negative
+        if self.hp < 0:
+            self.hp = 0
+
+        print(f"{self.char_class} takes {amount} damage! HP is now {self.hp}")
+
+        return self.hp > 0
+
+    def perform_attack(self, target):
+        """Rolls attack v target defence"""
+
+        # 1. Attacker rolls for skulls
+        attack_dice = self.calculate_attack_dice()
+        attack_results = Dice.roll_combat_dice(attack_dice)
+        skulls = attack_results["skulls"]
 
 
 # ==========================================
