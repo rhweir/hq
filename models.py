@@ -8,9 +8,13 @@ class Entity:
 
     def __init__(self, char_class, movement, attack, defend, hp, mp, x=0, y=0):
         self.char_class = char_class
+
+        # Permanent stats
         self.base_movement = movement
         self.base_attack = attack
         self.base_defend = defend
+
+        # Current stats
         self.hp = hp
         self.mp = mp
         self.movement_remaining = 0
@@ -100,3 +104,46 @@ def spawn_hero(hero_name, class_type, x=0, y=0):
         y=y,
         primary_weapon=template["primary_weapon"],
     )
+
+
+def spawn_monster(monster_type, x=0, y=0):
+    template = data.monster_templates.get(monster_type)
+
+    if template is None:
+        print(f"Error: Monster '{monster_type}' not found")
+        return None
+
+    return Monster(
+        char_class=monster_type,
+        movement=template["movement"],
+        attack=template["attack"],
+        defend=template["defend"],
+        hp=template["hp"],
+        mp=template["mp"],
+        x=x,
+        y=y,
+    )
+
+
+if __name__ == "__main__":
+    # 1. Use the bridge to spawn a Barbarian
+    # The Barbarian template in data.py has "attack": 0
+    my_hero = spawn_hero("Conan", "Barbarian", x=1, y=1)
+
+    if my_hero:
+        print("--- SPAWN TEST ---")
+        print(f"Name: {my_hero.name}")
+        print(f"Class: {my_hero.char_class}")
+
+        # 2. Check the "Hand-off"
+        # Even though we passed it in as 'attack', it's now 'base_attack'
+        print(f"Base Attack Stat: {my_hero.base_attack}")
+
+        # 3. Check the Weapon lookup
+        # The bridge took the string "Broadsword" and turned it into a dictionary
+        weapon_bonus = my_hero.primary_weapon["attack_bonus"]
+        print(f"Weapon Bonus: {weapon_bonus}")
+
+        # 4. Show the math for the future
+        total_dice = my_hero.base_attack + weapon_bonus
+        print(f"Total Attack Dice: {total_dice}")
