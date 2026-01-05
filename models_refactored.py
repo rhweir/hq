@@ -61,3 +61,20 @@ class Hero(Entity):
         self.arm = data.armour.get(arm, data.armour["Empty"])
         self.head = data.armour.get(head, data.armour["Empty"])
         self.body = data.armour.get(body, data.armour["Empty"])
+
+    def roll_for_movement(self):
+        """Calculates player movement minus armour penalties"""
+        # Roll 2d6
+        roll = random.randint(1, 6) + random.randint(1, 6)
+
+        # Calculalte armour penalties
+        penalty = (
+            self.off_hand.get("move_penalty", 0)
+            + self.arm.get("move_penalty", 0)
+            + self.head.get("move_penalty", 0)
+            + self.body.get("move_penalty", 0)
+        )
+
+        # Set remaining movement (min 1)
+        self.movement_remaining = max(1, roll - penalty)
+        return self.movement_remaining
