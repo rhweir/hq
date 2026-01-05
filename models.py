@@ -27,6 +27,12 @@ class Entity:
         self.x = x
         self.y = y
 
+    def calculate_attack_dice(self):
+        return self.base_attack
+
+    def calculate_defence_dice(self):
+        return self.base_defend
+
 
 # ==========================================
 # 2. SUB-CLASSES
@@ -36,13 +42,7 @@ class Entity:
 class Monster(Entity):
     """Standard monster, inherits from Entity"""
 
-    def calculate_attack_dice(self):
-        """Monsters use their base attack stat"""
-        return self.base_attack
-
-    def calculate_defence_dice(self):
-        """Monsters use their base defend stat"""
-        return self.base_defend
+    pass  # do nothing
 
 
 class Hero(Entity):
