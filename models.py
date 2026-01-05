@@ -76,12 +76,8 @@ class Entity:
         defend_results = Dice.combat(defend_dice)
 
         # 3. Choose the correct shield (White for heros, black for monsters)
-        if isinstance(target, Hero):
-            blocks = defend_results["white_shields"]
-            shield_name = "White Shields"
-        else:
-            blocks = defend_results["black_shields"]
-            shield_name = "Black Shields"
+        blocks = defend_results.get(target.defence_key, 0)
+        shield_name = target.defence_key.replace("_", " ").title()
 
         # 4. Final Result
         damage = max(0, skulls - blocks)
@@ -102,9 +98,9 @@ class Entity:
 
 
 class Monster(Entity):
-    """Standard monster, inherits from Entity"""
-
-    pass  # do nothing
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.defence_key = "black_shields"
 
 
 class Hero(Entity):
@@ -121,34 +117,33 @@ class Hero(Entity):
         x=0,
         y=0,
         primary_weapon="Unarmed",
-        off_hand="Empty",
-        arm="Empty",
         head="Empty",
         body="Empty",
+        off_hand="Empty",
+        arm="Empty",
     ):
 
         # Hero movement is always 0 until they roll
         super().__init__(char_class, 0, attack, defend, hp, mp, x, y)
 
         self.name = name
+        self.defence_key = "white_shields"
 
         # Equipment Lookups
         self.primary_weapon = data.weapons.get(primary_weapon, data.weapons["Unarmed"])
-        self.off_hand = data.armour.get(off_hand, data.armour["Empty"])
-        self.arm = data.armour.get(arm, data.armour["Empty"])
-        self.head = data.armour.get(head, data.armour["Empty"])
-        self.body = data.armour.get(body, data.armour["Empty"])
+
+        self.slots = {
+            "head": data.armour.get(head, data.armour["Empty"]),
+            "body": data.armour.get(body, data.armour["Empty"]),
+            "off_hand": data.armour.get(off_hand, data.armour["Empty"]),
+            "arm": data.armour.get(arm, data.armour["Empty"]),
+        }
 
     def roll_for_movement(self):
         """Calculates player movement (2d6) minus armour penalties"""
         roll = random.randint(1, 6) + random.randint(1, 6)
 
-        penalty = (
-            self.off_hand.get("move_penalty", 0)
-            + self.arm.get("move_penalty", 0)
-            + self.head.get("move_penalty", 0)
-            + self.body.get("move_penalty", 0)
-        )
+        penalty = sum(item.get("move_penalty", 0) for item in self.slots.values())
 
         self.movement_remaining = max(1, roll - penalty)
         return self.movement_remaining
@@ -159,12 +154,8 @@ class Hero(Entity):
 
     def calculate_defence_dice(self):
         """Adds up base defence and all armour bonuses"""
-        total_dice = self.base_defend
-        total_dice += self.off_hand.get("defence_bonus", 0)
-        total_dice += self.head.get("defence_bonus", 0)
-        total_dice += self.body.get("defence_bonus", 0)
-        total_dice += self.arm.get("defence_bonus", 0)
-        return total_dice
+        bonus = sum(item.get("defence_bonus", 0) for item in self.slots.values())
+        return self.base_defend + bonus
 
 
 # ==========================================
@@ -221,19 +212,19 @@ if __name__ == "__main__":
         print(f"TEST: {hero.name} has {hero.calculate_attack_dice()} attack dice.")
         print(f"TEST: {orc.char_class} has {orc.calculate_attack_dice()} attack dice.")
 
-if hero and orc:
-    print(f"A wild {orc.char_class} appears!")
+    if hero and orc:
+        print(f"A wild {orc.char_class} appears!")
 
-    # Keep fighting as long as both have HP
-    while hero.hp > 0 and orc.hp > 0:
-        hero.perform_attack(orc)
+        # Keep fighting as long as both have HP
+        while hero.hp > 0 and orc.hp > 0:
+            hero.perform_attack(orc)
 
-        if orc.hp > 0:
-            orc.perform_attack(hero)
+            if orc.hp > 0:
+                orc.perform_attack(hero)
 
-        print("-" * 25)
+            print("-" * 25)
 
-    if hero.hp > 0:
-        print(f"VICTORY: {hero.name} survived with {hero.hp} HP!")
-    else:
-        print("DEFEAT: The dungeon has claimed another soul.")
+        if hero.hp > 0:
+            print(f"VICTORY: {hero.name} survived with {hero.hp} HP!")
+        else:
+            print("DEFEAT: The dungeon has claimed another soul.")
