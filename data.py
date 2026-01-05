@@ -170,12 +170,48 @@ armour = {
 
 # Monster Dictionary
 monster_templates = {
-    "Zombie": {"movement": 5, "base_attack": 2, "base_defend": 3, "hp": 1, "mp": 0},
-    "Mummy": {"movement": 4, "base_attack": 3, "base_defend": 4, "hp": 2, "mp": 0},
-    "Gargoyle": {"movement": 6, "base_attack": 4, "base_defend": 5, "hp": 3, "mp": 0},
-    "Orc": {"movement": 8, "base_attack": 3, "base_defend": 2, "hp": 1, "mp": 2},
-    "Skeleton": {"movement": 6, "base_attack": 2, "base_defend": 2, "hp": 1, "mp": 0},
-    "Goblin": {"movement": 6, "base_attack": 2, "base_defend": 2, "hp": 1, "mp": 0},
+    "Zombie": {
+        "movement": 5,
+        "base_attack": 2,
+        "base_defend": 3,
+        "hp": 1,
+        "mp": 0,
+    },
+    "Mummy": {
+        "movement": 4,
+        "base_attack": 3,
+        "base_defend": 4,
+        "hp": 2,
+        "mp": 0,
+    },
+    "Gargoyle": {
+        "movement": 6,
+        "base_attack": 4,
+        "base_defend": 5,
+        "hp": 3,
+        "mp": 0,
+    },
+    "Orc": {
+        "movement": 8,
+        "base_attack": 3,
+        "base_defend": 2,
+        "hp": 1,
+        "mp": 2,
+    },
+    "Skeleton": {
+        "movement": 6,
+        "base_attack": 2,
+        "base_defend": 2,
+        "hp": 1,
+        "mp": 0,
+    },
+    "Goblin": {
+        "movement": 6,
+        "base_attack": 2,
+        "base_defend": 2,
+        "hp": 1,
+        "mp": 0,
+    },
     "Chaos Warrior": {
         "movement": 6,
         "base_attack": 2,
@@ -183,7 +219,13 @@ monster_templates = {
         "hp": 1,
         "mp": 0,
     },
-    "Fimir": {"movement": 6, "base_attack": 2, "base_defend": 2, "hp": 1, "mp": 0},
+    "Fimir": {
+        "movement": 6,
+        "base_attack": 2,
+        "base_defend": 2,
+        "hp": 1,
+        "mp": 0,
+    },
     "Chaos Warlock": {
         "movement": 6,
         "base_attack": 2,
