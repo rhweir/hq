@@ -169,6 +169,15 @@ def spawn_hero(hero_name, class_type, x=0, y=0):
         print(f"Error: Class '{class_type}' not found.")
         return None
 
+    weapon_name = template["primary_weapon"]
+    weapon_info = data.weapons.get(weapon_name, data.weapons["Unarmed"])
+
+    if class_type == "Wizard" and not weapon_info.get("wizard_ok", False):
+        print(
+            f"Illegal Equipment: {class_type} cannot use {weapon_name}. Equipping Dagger instead."
+        )
+        weapon_name = "Dagger"
+
     return Hero(
         name=hero_name,
         char_class=class_type,
@@ -178,7 +187,7 @@ def spawn_hero(hero_name, class_type, x=0, y=0):
         mp=template["mp"],
         x=x,
         y=y,
-        primary_weapon=template["primary_weapon"],
+        primary_weapon=weapon_name,
     )
 
 
