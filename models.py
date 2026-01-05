@@ -65,8 +65,32 @@ class Entity:
 
         # 1. Attacker rolls for skulls
         attack_dice = self.calculate_attack_dice()
-        attack_results = Dice.roll_combat_dice(attack_dice)
+        attack_results = Dice.combat(attack_dice)
         skulls = attack_results["skulls"]
+
+        # 2. Target rolls for shields
+        defend_dice = target.calculate_defebce_dice()
+        defend_results = Dice.combat(defend_dice)
+
+        # 3. Choose the correct shield (White for heros, black for monsters)
+        if isinstance(target, Hero):
+            blocks = defend_results["white_shields"]
+            shield_name = "White Shields"
+        else:
+            blocks = defend_results["black_shields"]
+            shield_name = "Black Shields"
+
+        # 4. Final Result
+        damage = max(0, skulls - blocks)
+
+        print(f"\n--- Combat: {self.char_class} vs {target.char_class} ---")
+        print(f"Attacker rolls: {skulls} Skulls")
+        print(f"Defender rolls: {blocks} {shield_name}")
+
+        if damage > 0:
+            target.take_damage(damage)
+        else:
+            print("The attack was completely blocked!")
 
 
 # ==========================================
