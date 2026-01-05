@@ -83,6 +83,31 @@ class Hero(Entity):
         self.movement_remaining = max(1, roll - penalty)
         return self.movement_remaining
 
+    def calculate_defence_dice(self):
+        """Adds up the base defence and armour bonuses"""
+
+        # 1. Start with the base stat saved in Entity
+        total_dice = self.base_defend
+
+        # 2. Add equipment bonuses
+        total_dice += self.off_hand.get("defence_bonus", 0)
+        total_dice += self.head.get("defence_bonus", 0)
+        total_dice += self.body.get("defence_bonus", 0)
+        total_dice += self.arm.get("defence_bonus", 0)
+
+        return total_dice
+
+    def calculate_attack_dice(self):
+        """Adds up base attack and weapon bonus"""
+
+        # 1. Start with the base attack saved in Entity
+        total_dice = self.base_attack
+
+        # 2. Add weapon bonus
+        total_dice += self.primary_weapon.get("attack_bonus", 0)
+
+        return total_dice
+
 
 def spawn_hero(hero_name, class_type, x=0, y=0):
     # 1. Lookup the template in data.py
@@ -126,24 +151,39 @@ def spawn_monster(monster_type, x=0, y=0):
 
 
 if __name__ == "__main__":
-    # 1. Use the bridge to spawn a Barbarian
-    # The Barbarian template in data.py has "attack": 0
-    my_hero = spawn_hero("Conan", "Barbarian", x=1, y=1)
+    print("--- ⚔️  RPG SYSTEM TEST ⚔️  ---")
 
-    if my_hero:
-        print("--- SPAWN TEST ---")
-        print(f"Name: {my_hero.name}")
-        print(f"Class: {my_hero.char_class}")
+    # 1. Test Hero Spawning with a Template Weapon
+    conan = spawn_hero("Conan", "Barbarian", x=1, y=1)
+    if conan:
+        print(f"\nHero: {conan.name} the {conan.char_class}")
+        print(
+            f"Weapon: {conan.primary_weapon.get('cost') > 0 and 'Broadsword' or 'None'}"
+        )
+        # This uses your new method!
+        print(f"Total Attack Dice: {conan.calculate_attack_dice()}")
+        print(f"Total Defense Dice: {conan.calculate_defence_dice()}")
 
-        # 2. Check the "Hand-off"
-        # Even though we passed it in as 'attack', it's now 'base_attack'
-        print(f"Base Attack Stat: {my_hero.base_attack}")
+    # 2. Test Unarmed Logic (Wizard)
+    merlin = spawn_hero("Merlin", "Wizard")
+    if merlin:
+        # We manually set him to Unarmed to be sure
+        merlin.primary_weapon = data.weapons["Unarmed"]
+        print(f"\nHero: {merlin.name} the {merlin.char_class}")
+        print(f"Weapon: Unarmed")
+        # Base Attack (0) + Unarmed Bonus (1) = 1
+        print(f"Total Attack Dice: {merlin.calculate_attack_dice()}")
 
-        # 3. Check the Weapon lookup
-        # The bridge took the string "Broadsword" and turned it into a dictionary
-        weapon_bonus = my_hero.primary_weapon["attack_bonus"]
-        print(f"Weapon Bonus: {weapon_bonus}")
+    # 3. Test Monster Spawning
+    grunt = spawn_monster("Orc", x=5, y=5)
+    if grunt:
+        print(f"\nMonster: {grunt.char_class}")
+        print(f"Position: ({grunt.x}, {grunt.y})")
+        print(f"Base Attack: {grunt.base_attack}")
+        print(f"Base Defense: {grunt.base_defend}")
 
-        # 4. Show the math for the future
-        total_dice = my_hero.base_attack + weapon_bonus
-        print(f"Total Attack Dice: {total_dice}")
+    # 4. Test Equipment Change
+    print(f"\n--- 🛡️  EQUIPMENT TEST ---")
+    print(f"Conan's Defense before Shield: {conan.calculate_defence_dice()}")
+    conan.off_hand = data.armour["Shield"]
+    print(f"Conan's Defense after Shield: {conan.calculate_defence_dice()}")
