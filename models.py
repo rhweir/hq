@@ -78,3 +78,25 @@ class Hero(Entity):
         # Set remaining movement (min 1)
         self.movement_remaining = max(1, roll - penalty)
         return self.movement_remaining
+
+
+def spawn_hero(hero_name, class_type, x=0, y=0):
+    # 1. Lookup the template in data.py
+    template = data.hero_templates.get(class_type)
+
+    if template is None:
+        print(f"Error: Class '{class_type}' not found in hero template")
+        return None
+
+    # 2. Extract the stats from the template
+    return Hero(
+        name=hero_name,
+        char_class=class_type,
+        attack=template["attack"],
+        defend=template["defend"],
+        hp=template["hp"],
+        mp=template["mp"],
+        x=x,
+        y=y,
+        primary_weapon=template["primary_weapon"],
+    )
