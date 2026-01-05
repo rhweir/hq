@@ -69,7 +69,7 @@ class Entity:
         skulls = attack_results["skulls"]
 
         # 2. Target rolls for shields
-        defend_dice = target.calculate_defebce_dice()
+        defend_dice = target.calculate_defence_dice()
         defend_results = Dice.combat(defend_dice)
 
         # 3. Choose the correct shield (White for heros, black for monsters)
