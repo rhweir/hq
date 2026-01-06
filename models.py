@@ -172,13 +172,15 @@ def spawn_hero(hero_name, class_type, x=0, y=0):
     weapon_name = template["primary_weapon"]
     weapon_info = data.weapons.get(weapon_name, data.weapons["Unarmed"])
 
+    # Wizard weapon check
     if class_type == "Wizard" and not weapon_info.get("wizard_ok", False):
         print(
             f"Illegal Equipment: {class_type} cannot use {weapon_name}. Equipping Dagger instead."
         )
         weapon_name = "Dagger"
 
-    return Hero(
+    # Create the hero
+    hero = Hero(
         name=hero_name,
         char_class=class_type,
         attack=template["attack"],
@@ -189,6 +191,15 @@ def spawn_hero(hero_name, class_type, x=0, y=0):
         y=y,
         primary_weapon=weapon_name,
     )
+
+    # Wizard armour check
+    if class_type == "Wizard":
+        for slot in hero.slots:
+            if not hero.slots[slot].get("wizard_ok", True):
+                print(f"Illegal Armour: {class_type} cannot use {slot} item. Removing.")
+                hero.slots[slot] = data.armour["Empty"]
+
+    return hero
 
 
 def spawn_monster(monster_type, x=0, y=0):
