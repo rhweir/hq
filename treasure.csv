@@ -1,0 +1,17 @@
+Card_Name,Type,Value_or_Effect
+Gem,Gold,Value: 50 Gold
+Jewels,Gold,Value: 50 Gold
+Gold Coins,Gold,Value: 25 Gold
+Gold Coins,Gold,Value: 20 Gold
+Gold Coins,Gold,Value: 15 Gold
+Treasure Horde,Gold,Value: 100 Gold
+Potion of Healing,Item,Restores up to 4 Body Points
+Potion of Speed,Item,Allows 2 movement dice to be rolled twice next turn
+Potion of Strength,Item,Adds 2 attack dice for one combat turn
+Potion of Resilience,Item,Adds 2 defense dice for one combat turn
+Holy Water,Item,Inflicts 2 damage on any Undead monster
+Heroic Brew,Item,Allows the Hero to make two attacks in one turn
+Wandering Monster,Hazard,Spawns a monster (usually an Orc) in an adjacent square
+Hazard: Arrow Trap,Hazard,Hero loses 1 Body Point immediately
+Hazard: Pit Trap,Hazard,Hero loses 1 Body Point and falls into a pit
+Nothing,Null,The room is empty. No treasure found.

@@ -5,6 +5,30 @@
 # Weapon dictionary (UK Prices and Stats)
 # Note: In the UK, weapons like the Battle Axe and Staff
 # prevent the use of a Shield (Two-handed).
+import csv
+
+
+def load_csv_data(filepath):
+    """Parses CSV into a list of dictionaries"""
+    data_list = []
+    try:
+        with open(filepath, mode="r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                data_list.append(dict(row))
+    except FileNotFoundError:
+        print(f"Error: {filepath} not found. Library will be empty.")
+    except Exception as e:
+        print(f"An error occurred loading {filepath}: {e}")
+    return data_list
+
+
+# Load the cards into 'library' variables
+spell_library = load_csv_data("spells.csv")
+treasure_deck = load_csv_data("treasure.csv")
+
+print(spell_library)
+
 weapons = {
     "Dagger": {
         "cost": 25,

@@ -1,5 +1,18 @@
 import random
-import data
+import json
+
+
+def load_game_data(filepath="gamedata.json"):
+    try:
+        with open(filepath, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"Error: {filepath} not found.")
+        return {}
+
+
+# Load global libraries
+GAME_DATA = load_game_data()
 
 # ==========================================
 # 1. BASE CLASSES
@@ -13,11 +26,11 @@ class Dice:
         results = {"skulls": 0, "white_shields": 0, "black_shields": 0}
         for _ in range(num_dice):
             roll = random.randint(1, 6)
-            if roll <= 3:  # 1, 2, 3
+            if roll <= 3:  # 1, 2, 3 (50% Skull)
                 results["skulls"] += 1
-            elif roll <= 5:  # 4, 5
+            elif roll <= 5:  # 4, 5 (33% White Shield)
                 results["white_shields"] += 1
-            else:
+            else:  # 6 (16% Black Shield)
                 results["black_shields"] += 1
         return results
 
@@ -27,20 +40,14 @@ class Entity:
 
     def __init__(self, char_class, movement, attack, defend, hp, mp, x=0, y=0):
         self.char_class = char_class
-
-        # Permanent stats
         self.base_movement = movement
         self.base_attack = attack
         self.base_defend = defend
-
-        # Current stats
         self.hp = hp
         self.mp = mp
-        self.movement_remaining = 0
-
-        # Position variables
         self.x = x
         self.y = y
+        self.defence_key = "white_shields"  # Default
 
     def calculate_attack_dice(self):
         return self.base_attack
@@ -49,42 +56,26 @@ class Entity:
         return self.base_defend
 
     def take_damage(self, amount):
-        """Reduces HP and returns True if alive, False if dead"""
-        self.hp -= amount
-
-        # Prevent HP from being negative
-        if self.hp < 0:
-            self.hp = 0
-
+        self.hp = max(0, self.hp - amount)
         print(f"{self.char_class} takes {amount} damage! HP is now {self.hp}")
-
         if self.hp == 0:
-            print(f"!!! {self.char_class} has been slain !!!")
-
+            print(f"!!! {self.char_class} has been slain!!!")
         return self.hp > 0
 
     def perform_attack(self, target):
-        """Rolls attack v target defence"""
-
-        # 1. Attacker rolls for skulls
         attack_dice = self.calculate_attack_dice()
         attack_results = Dice.combat(attack_dice)
         skulls = attack_results["skulls"]
 
-        # 2. Target rolls for shields
         defend_dice = target.calculate_defence_dice()
         defend_results = Dice.combat(defend_dice)
-
-        # 3. Choose the correct shield (White for heros, black for monsters)
         blocks = defend_results.get(target.defence_key, 0)
-        shield_name = target.defence_key.replace("_", " ").title()
 
-        # 4. Final Result
         damage = max(0, skulls - blocks)
-
         print(f"\n--- Combat: {self.char_class} vs {target.char_class} ---")
-        print(f"Attacker rolls: {skulls} Skulls")
-        print(f"Defender rolls: {blocks} {shield_name}")
+        print(
+            f"Attacker: {skulls} Skulls | Defender: {blocks} {target.defence_key.replace('-',' ').title()}"
+        )
 
         if damage > 0:
             target.take_damage(damage)
@@ -92,10 +83,11 @@ class Entity:
             print("The attack was completely blocked!")
 
     def is_adjacent(self, target):
-        """Returns True if target is N, S, E, or W of this entity"""
-
-        dist = abs(self.x - target.x) + abs(self.y - target.y)
-        return dist == 1
+        dx, dy = abs(self.x - target.x), abs(self.y - target.y)
+        weapon = getattr(self, "primary_weapon", {})
+        if weapon.get("diagonal", False):
+            return max(dx, dy) == 1
+        return (dx + dy) == 1
 
 
 # ==========================================
@@ -123,56 +115,44 @@ class Hero(Entity):
         x=0,
         y=0,
         primary_weapon="Unarmed",
-        head="Empty",
-        body="Empty",
-        off_hand="Empty",
-        arm="Empty",
     ):
-
-        # Hero movement is always 0 until they roll
         super().__init__(char_class, 0, attack, defend, hp, mp, x, y)
-
-        self.name = name
+        self.name = name:
         self.defence_key = "white_shields"
 
-        # Equipment Lookups
-        self.primary_weapon = data.weapons.get(primary_weapon, data.weapons["Unarmed"])
-
+        # Pull weapon/armour data from the JSON library
+        weapon_lib = GAME_DATA.get("weapons",{})
+        armour_lib = GAME_DATA.get("armour",{})
+        
+        self.primary_weapon = weapon_lib.get(primary_weapon, weapon_lib.get("Unarmed", {}))
         self.slots = {
-            "head": data.armour.get(head, data.armour["Empty"]),
-            "body": data.armour.get(body, data.armour["Empty"]),
-            "off_hand": data.armour.get(off_hand, data.armour["Empty"]),
-            "arm": data.armour.get(arm, data.armour["Empty"]),
+            "head": armour_lib.get("Empty"),
+            "body": armour_lib.get("Empty"),
+            "off_hand": armour_lib.get("Empty")
         }
 
     def roll_for_movement(self):
         """Calculates player movement (2d6) minus armour penalties"""
         roll = random.randint(1, 6) + random.randint(1, 6)
 
-        penalty = sum(item.get("move_penalty", 0) for item in self.slots.values())
+        # Plate Mail causes movement penalty
+        penalty = sum(item.get("move_penalty",0) for item in self.slots.values() if item)
 
         self.movement_remaining = max(1, roll - penalty)
+        print(f"{self_name} rolled a {roll} for movement (Penalty: {penalty}). Total {self.movement_remaining}")
         return self.movement_remaining
 
     def calculate_attack_dice(self):
-        """Combines base attack and weapon bonus"""
         return self.base_attack + self.primary_weapon.get("attack_bonus", 0)
 
     def calculate_defence_dice(self):
-        """Adds up base defence and all armour bonuses - with 2 handed weapon check"""
-        bonus = 0
-
-        # Check if current weapon occupies two hands
-        is_two_handed = self.primary_weapon.get("two_handed", False)
-
-        for slot_name, item in self.slots.items():
-            if slot_name == "off_hand" and is_two_handed:
-                if item.get("is_off_hand", False):
-                    continue  # skip the bonus from the shield
-
-            bonus += item.get("defence_bonus", 0)
-
-        return self.base_defend + bonus
+        bonus = sum(item.get("defence_bonus", 0) for item in self.slots.values() if item)
+        # Check for two handed weapon blocking shield use 
+        if self.primary_weapon.get("two_handed", False):
+            off_hand = self.slots.get("off_hand", {})
+            if off_hand and off_hand.get("slot") == "off_hand":
+                bonus -= off_hand.get("defence_bonus",0)
+            return self.base_defend + bonus
 
 
 # ==========================================

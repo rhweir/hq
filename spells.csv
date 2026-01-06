@@ -1,0 +1,13 @@
+Name,School,Effect_Type,Description
+Genie,Air,Attack,Summons a Genie to attack any monster in line of sight with 5 combat dice.
+Swift Wind,Air,Buff,Target Hero may roll twice as many dice for movement on their next turn.
+Tempest,Air,CC,Causes a small whirlwind; target monster misses its next turn.
+Heal Body,Earth,Heal,Target Hero regains up to 4 lost Body Points.
+Pass Through Rock,Earth,Utility,Target Hero can move through walls on their next turn.
+Rock Skin,Earth,Buff,Target Hero gains 1 extra defense die until they take damage.
+Ball of Flame,Fire,Attack,Inflicts 2 Body Points of damage on any monster the caster can see.
+Courage,Fire,Buff,Target Hero rolls 2 extra attack dice until there are no monsters in sight.
+Fire of Wrath,Fire,Attack,Inflicts 1 Body Point of damage on any monster the caster can see.
+Sleep,Water,CC,Target monster falls asleep; cannot move or attack until it rolls a 6.
+Veil of Mist,Water,Buff,Target Hero can move past monsters without being blocked.
+Water of Healing,Water,Heal,Target Hero regains up to 4 lost Body Points.

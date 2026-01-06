@@ -1,0 +1,34 @@
+{
+  "heroes": {
+    "Barbarian": { "hp": 8, "mp": 2, "attack": 0, "defend": 2, "primary_weapon": "Broadsword" },
+    "Dwarf": { "hp": 7, "mp": 3, "attack": 0, "defend": 2, "primary_weapon": "Shortsword" },
+    "Elf": { "hp": 6, "mp": 4, "attack": 0, "defend": 2, "primary_weapon": "Shortsword" },
+    "Wizard": { "hp": 4, "mp": 6, "attack": 0, "defend": 2, "primary_weapon": "Dagger" }
+  },
+  "monsters": {
+    "Goblin": { "movement": 10, "attack": 2, "defend": 1, "hp": 1, "mp": 1 },
+    "Skeleton": { "movement": 6, "attack": 2, "defend": 2, "hp": 1, "mp": 0 },
+    "Zombie": { "movement": 5, "attack": 2, "defend": 3, "hp": 1, "mp": 0 },
+    "Orc": { "movement": 8, "attack": 3, "defend": 2, "hp": 1, "mp": 2 },
+    "Fimir": { "movement": 6, "attack": 3, "defend": 3, "hp": 1, "mp": 3 },
+    "Mummy": { "movement": 4, "attack": 3, "defend": 4, "hp": 1, "mp": 0 },
+    "Chaos Warrior": { "movement": 6, "attack": 4, "defend": 4, "hp": 1, "mp": 3 },
+    "Gargoyle": { "movement": 6, "attack": 4, "defend": 5, "hp": 1, "mp": 4 }
+  },
+  "weapons": {
+    "Dagger": { "cost": 25, "attack_bonus": 1, "diagonal": false, "thrown": true, "wizard_ok": true },
+    "Staff": { "cost": 100, "attack_bonus": 2, "diagonal": true, "two_handed": true, "wizard_ok": true },
+    "Shortsword": { "cost": 150, "attack_bonus": 2, "diagonal": false, "two_handed": false, "wizard_ok": false },
+    "Broadsword": { "cost": 250, "attack_bonus": 3, "diagonal": false, "two_handed": false, "wizard_ok": false },
+    "Longsword": { "cost": 350, "attack_bonus": 3, "diagonal": true, "two_handed": false, "wizard_ok": false },
+    "Battle Axe": { "cost": 450, "attack_bonus": 4, "diagonal": false, "two_handed": true, "wizard_ok": false },
+    "Unarmed": { "cost": 0, "attack_bonus": 1, "diagonal": false, "two_handed": false, "wizard_ok": true }
+  },
+  "armour": {
+    "Helmet": { "cost": 120, "defence_bonus": 1, "wizard_ok": false, "slot": "head" },
+    "Shield": { "cost": 100, "defence_bonus": 1, "wizard_ok": false, "slot": "off_hand", "is_off_hand": true },
+    "Chain Mail": { "cost": 450, "defence_bonus": 1, "wizard_ok": false, "slot": "body" },
+    "Plate Mail": { "cost": 500, "defence_bonus": 2, "wizard_ok": false, "move_penalty": 1, "slot": "body" },
+    "Empty": { "cost": 0, "defence_bonus": 0, "wizard_ok": true, "slot": null }
+  }
+}
