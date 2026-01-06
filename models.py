@@ -91,6 +91,12 @@ class Entity:
         else:
             print("The attack was completely blocked!")
 
+    def is_adjacent(self, target):
+        """Returns True if target is N, S, E, or W of this entity"""
+
+        dist = abs(self.x - target.x) + abs(self.y - target.y)
+        return dist == 1
+
 
 # ==========================================
 # 2. SUB-CLASSES
@@ -153,8 +159,19 @@ class Hero(Entity):
         return self.base_attack + self.primary_weapon.get("attack_bonus", 0)
 
     def calculate_defence_dice(self):
-        """Adds up base defence and all armour bonuses"""
-        bonus = sum(item.get("defence_bonus", 0) for item in self.slots.values())
+        """Adds up base defence and all armour bonuses - with 2 handed weapon check"""
+        bonus = 0
+
+        # Check if current weapon occupies two hands
+        is_two_handed = self.primary_weapon.get("two_handed", False)
+
+        for slot_name, item in self.slots.items():
+            if slot_name == "off_hand" and is_two_handed:
+                if item.get("is_off_hand", False):
+                    continue  # skip the bonus from the shield
+
+            bonus += item.get("defence_bonus", 0)
+
         return self.base_defend + bonus
 
 
