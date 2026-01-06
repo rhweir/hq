@@ -107,6 +107,7 @@ class Hero(Entity):
         super().__init__(char_class, 0, attack, defend, hp, mp, x, y)
         self.name = name
         self.defence_key = "white_shields"
+        self.spells = []
 
         # Pull weapon/armour data from the JSON library
         weapon_lib = GAME_DATA.get("weapons", {})
@@ -122,6 +123,17 @@ class Hero(Entity):
             "body": armour_lib.get("Empty", null_item),
             "off_hand": armour_lib.get("Empty", null_item),
         }
+
+    def cast_spell(self, spell_name, target=None):
+        """Spells discarded after use."""
+        spell = next((s for s in self.spells if s["name"] == spell_name), None)
+
+        if not spell:
+            print(f"{self.name} casts {spell['name']}! ***")
+            # Logic for spell effects go heroes
+
+            self.spells.remove(spell)
+            return True
 
     def roll_for_movement(self):
         """Calculates player movement (2d6) minus armour penalties"""
@@ -158,14 +170,14 @@ class Hero(Entity):
 # ==========================================
 
 
-def spawn_hero(hero_name, class_type, x=0, y=0):
+def spawn_hero(hero_name, class_type, x=0, y=0, chosen_spells=None):
     hero_lib = GAME_DATA.get("heroes", {})
     template = hero_lib.get(class_type)
     if not template:
         print(f"CRITICAL ERROR: Hero class '{class_type}' not found in data!")
         return Hero(hero_name, "Adventurer", 1, 2, 4, 2, x, y)
 
-    return Hero(
+    hero = Hero(
         name=hero_name,
         char_class=class_type,
         attack=template.get("attack", 1),
@@ -176,6 +188,15 @@ def spawn_hero(hero_name, class_type, x=0, y=0):
         y=y,
         primary_weapon=template.get("primary_weapon", "Unarmed"),
     )
+
+    if template.get("is_spellcaster") and chosen_spells:
+        spell_lib = GAME_DATE.get("spells", {})
+        for element in chosen_spells:
+            element_spells = spell_lib.get(element, [])
+            hero.spells.extend(element_spells)
+            print(f"Assigning {element} spells to {hero.name}...")
+
+    return hero
 
 
 def spawn_monster(monster_type, x=0, y=0):
