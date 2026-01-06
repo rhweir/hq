@@ -1,18 +1,5 @@
 import random
-import json
-
-
-def load_game_data(filepath="gamedata.json"):
-    try:
-        with open(filepath, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        print(f"Error: {filepath} not found.")
-        return {}
-
-
-# Load global libraries
-GAME_DATA = load_game_data()
+from data import GAME_DATA
 
 # ==========================================
 # 1. BASE CLASSES
@@ -47,7 +34,8 @@ class Entity:
         self.mp = mp
         self.x = x
         self.y = y
-        self.defence_key = "white_shields"  # Default
+        self.movement_remaining = 0
+        self.defence_key = "white_shields"
 
     def calculate_attack_dice(self):
         return self.base_attack
@@ -74,7 +62,7 @@ class Entity:
         damage = max(0, skulls - blocks)
         print(f"\n--- Combat: {self.char_class} vs {target.char_class} ---")
         print(
-            f"Attacker: {skulls} Skulls | Defender: {blocks} {target.defence_key.replace('-',' ').title()}"
+            f"Attacker: {skulls} Skulls | Defender: {blocks} {target.defence_key.replace('_',' ').title()}"
         )
 
         if damage > 0:
@@ -117,18 +105,22 @@ class Hero(Entity):
         primary_weapon="Unarmed",
     ):
         super().__init__(char_class, 0, attack, defend, hp, mp, x, y)
-        self.name = name:
+        self.name = name
         self.defence_key = "white_shields"
 
         # Pull weapon/armour data from the JSON library
-        weapon_lib = GAME_DATA.get("weapons",{})
-        armour_lib = GAME_DATA.get("armour",{})
-        
-        self.primary_weapon = weapon_lib.get(primary_weapon, weapon_lib.get("Unarmed", {}))
+        weapon_lib = GAME_DATA.get("weapons", {})
+        armour_lib = GAME_DATA.get("armour", {})
+
+        null_item = {"cost": 0, "defence_bonus": 0, "attack_bonus": 0, "slot": None}
+
+        self.primary_weapon = weapon_lib.get(
+            primary_weapon, weapon_lib.get("Unarmed", null_item)
+        )
         self.slots = {
-            "head": armour_lib.get("Empty"),
-            "body": armour_lib.get("Empty"),
-            "off_hand": armour_lib.get("Empty")
+            "head": armour_lib.get("Empty", null_item),
+            "body": armour_lib.get("Empty", null_item),
+            "off_hand": armour_lib.get("Empty", null_item),
         }
 
     def roll_for_movement(self):
@@ -136,112 +128,70 @@ class Hero(Entity):
         roll = random.randint(1, 6) + random.randint(1, 6)
 
         # Plate Mail causes movement penalty
-        penalty = sum(item.get("move_penalty",0) for item in self.slots.values() if item)
+        penalty = sum(
+            item.get("move_penalty", 0) for item in self.slots.values() if item
+        )
 
         self.movement_remaining = max(1, roll - penalty)
-        print(f"{self_name} rolled a {roll} for movement (Penalty: {penalty}). Total {self.movement_remaining}")
+        print(
+            f"{self.name} rolled a {roll} for movement (Penalty: {penalty}). Total {self.movement_remaining}"
+        )
         return self.movement_remaining
 
     def calculate_attack_dice(self):
         return self.base_attack + self.primary_weapon.get("attack_bonus", 0)
 
     def calculate_defence_dice(self):
-        bonus = sum(item.get("defence_bonus", 0) for item in self.slots.values() if item)
-        # Check for two handed weapon blocking shield use 
+        bonus = sum(
+            item.get("defence_bonus", 0) for item in self.slots.values() if item
+        )
+        # Check for two handed weapon blocking shield use
         if self.primary_weapon.get("two_handed", False):
-            off_hand = self.slots.get("off_hand", {})
-            if off_hand and off_hand.get("slot") == "off_hand":
-                bonus -= off_hand.get("defence_bonus",0)
-            return self.base_defend + bonus
+            off_hand = self.slots.get("off_hand") or {}
+            if off_hand.get("slot") == "off_hand":
+                bonus -= off_hand.get("defence_bonus", 0)
+        return self.base_defend + bonus
 
 
 # ==========================================
-# 3. SPAWNING FUNCTIONS (THE BRIDGE)
+# 3. SPAWNING FUNCTIONS
 # ==========================================
 
 
 def spawn_hero(hero_name, class_type, x=0, y=0):
-    template = data.hero_templates.get(class_type)
+    hero_lib = GAME_DATA.get("heroes", {})
+    template = hero_lib.get(class_type)
     if not template:
-        print(f"Error: Class '{class_type}' not found.")
-        return None
+        print(f"CRITICAL ERROR: Hero class '{class_type}' not found in data!")
+        return Hero(hero_name, "Adventurer", 1, 2, 4, 2, x, y)
 
-    weapon_name = template["primary_weapon"]
-    weapon_info = data.weapons.get(weapon_name, data.weapons["Unarmed"])
-
-    # Wizard weapon check
-    if class_type == "Wizard" and not weapon_info.get("wizard_ok", False):
-        print(
-            f"Illegal Equipment: {class_type} cannot use {weapon_name}. Equipping Dagger instead."
-        )
-        weapon_name = "Dagger"
-
-    # Create the hero
-    hero = Hero(
+    return Hero(
         name=hero_name,
         char_class=class_type,
-        attack=template["attack"],
-        defend=template["defend"],
-        hp=template["hp"],
-        mp=template["mp"],
+        attack=template.get("attack", 1),
+        defend=template.get("defend", 2),
+        hp=template.get("hp", 4),
+        mp=template.get("mp", 2),
         x=x,
         y=y,
-        primary_weapon=weapon_name,
+        primary_weapon=template.get("primary_weapon", "Unarmed"),
     )
-
-    # Wizard armour check
-    if class_type == "Wizard":
-        for slot in hero.slots:
-            if not hero.slots[slot].get("wizard_ok", True):
-                print(f"Illegal Armour: {class_type} cannot use {slot} item. Removing.")
-                hero.slots[slot] = data.armour["Empty"]
-
-    return hero
 
 
 def spawn_monster(monster_type, x=0, y=0):
-    template = data.monster_templates.get(monster_type)
+    monster_lib = GAME_DATA.get("monsters", {})
+    template = monster_lib.get(monster_type)
     if not template:
-        print(f"Error: Monster '{monster_type}' not found.")
+        print(f"CRITICAL ERROR: Monster type '{monster_type}' not found in data!")
         return None
 
     return Monster(
         char_class=monster_type,
-        movement=template["movement"],
-        attack=template["attack"],
-        defend=template["defend"],
-        hp=template["hp"],
-        mp=template["mp"],
+        movement=template.get("movement", 6),
+        attack=template.get("attack", 2),
+        defend=template.get("defend", 2),
+        hp=template.get("hp", 1),
+        mp=template.get("mp", 0),
         x=x,
         y=y,
     )
-
-
-# ==========================================
-# 4. TEST EXECUTION
-# ==========================================
-if __name__ == "__main__":
-    # Test spawns
-    hero = spawn_hero("Conan", "Barbarian")
-    orc = spawn_monster("Orc")
-
-    if hero and orc:
-        print(f"TEST: {hero.name} has {hero.calculate_attack_dice()} attack dice.")
-        print(f"TEST: {orc.char_class} has {orc.calculate_attack_dice()} attack dice.")
-
-    if hero and orc:
-        print(f"A wild {orc.char_class} appears!")
-
-        # Keep fighting as long as both have HP
-        while hero.hp > 0 and orc.hp > 0:
-            hero.perform_attack(orc)
-
-            if orc.hp > 0:
-                orc.perform_attack(hero)
-
-            print("-" * 25)
-
-        if hero.hp > 0:
-            print(f"VICTORY: {hero.name} survived with {hero.hp} HP!")
-        else:
-            print("DEFEAT: The dungeon has claimed another soul.")
