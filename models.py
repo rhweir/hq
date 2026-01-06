@@ -130,7 +130,7 @@ class Hero(Entity):
 
         if spell:
             print(f"{self.name} casts {spell['name']}! ***")
-            # Logic for spell effects go heroes
+            # Logic for spell effects (Damage/Healing) to go here later
             self.spells.remove(spell)
             return True
         else:
