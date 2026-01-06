@@ -1,47 +1,48 @@
-HeroQuest TUI (UK Edition)
+# HeroQuest TUI (UK Edition)
 
-A terminal-based Text User Interface (TUI) recreation of the 1989 classic dungeon crawler. This project implements the core mechanics of the HeroQuest UK Edition, featuring a 26x19 grid and a complete elemental magic system.
-Features
+## A terminal-based Text User Interface (TUI) recreation of the 1989 classic dungeon crawler. This project implements the core mechanics of the HeroQuest UK Edition, featuring a 26x19 grid and a complete elemental magic system.
 
-    Authentic Grid: Implements the 26x19 board dimensions of the original UK release.
+## Features
 
-    Elemental Magic: Full spell decks for Air, Earth, Fire, and Water categorized within the game data.
+Authentic Grid: Implements the 26x19 board dimensions of the original UK release.
 
-    Entity Management: Dedicated classes for Heroes and Monsters with attribute inheritance.
+Elemental Magic: Full spell decks for Air, Earth, Fire, and Water categorized within the game data.
 
-    Spellcaster Logic: Automatic spell assignment for classes flagged with "is_spellcaster" (Wizard and Elf).
+Entity Management: Dedicated classes for Heroes and Monsters with attribute inheritance.
 
-    Robust Casting: Spellcasting logic includes validation checks and discard-after-use mechanics.
+Spellcaster Logic: Automatic spell assignment for classes flagged with "is_spellcaster" (Wizard and Elf).
 
-Project Structure
+Robust Casting: Spellcasting logic includes validation checks and discard-after-use mechanics.
 
-    main.py: Entry point containing the game loop and terminal rendering triggers.
+## Project Structure
 
-    models.py: Core logic for the Entity, Hero, and Monster classes, including the spawn and cast_spell methods.
+main.py: Entry point containing the game loop and terminal rendering triggers.
 
-    map.py: Handles the 2D coordinate system and ASCII rendering of the board.
+models.py: Core logic for the Entity, Hero, and Monster classes, including the spawn and cast_spell methods.
 
-    data.py: Facilitates the loading of GAME_DATA from the JSON source.
+map.py: Handles the 2D coordinate system and ASCII rendering of the board.
 
-    gamedata.json: The primary data store for hero stats, monster attributes, and spell definitions.
+data.py: Facilitates the loading of GAME_DATA from the JSON source.
 
-Setup and Execution
-Prerequisites
+gamedata.json: The primary data store for hero stats, monster attributes, and spell definitions.
 
-    Python 3.10 or higher.
+## Setup and Execution
+### Prerequisites
 
-    A terminal supporting standard clear commands (Linux, macOS, or Windows Terminal).
+Python 3.10 or higher.
 
-Running the Project
-Bash
+A terminal supporting standard clear commands (Linux, macOS, or Windows Terminal).
 
+## Running the Project
+```Bash
 python main.py
+```
 
-Controls
+## Controls
 
-    W/A/S/D: Movement across the x and y axes.
+W/A/S/D: Movement across the x and y axes.
 
-    C: Initiate the cast_spell method.
+C: Initiate the cast_spell method.
 
-    Q: Terminate the game session.
+Q: Terminate the game session.
 
