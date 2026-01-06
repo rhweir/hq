@@ -128,12 +128,14 @@ class Hero(Entity):
         """Spells discarded after use."""
         spell = next((s for s in self.spells if s["name"] == spell_name), None)
 
-        if not spell:
+        if spell:
             print(f"{self.name} casts {spell['name']}! ***")
             # Logic for spell effects go heroes
-
             self.spells.remove(spell)
             return True
+        else:
+            print(f"ERROR: {self.name} does not have the spell '{spell_name}'!")
+            return False
 
     def roll_for_movement(self):
         """Calculates player movement (2d6) minus armour penalties"""
@@ -190,7 +192,7 @@ def spawn_hero(hero_name, class_type, x=0, y=0, chosen_spells=None):
     )
 
     if template.get("is_spellcaster") and chosen_spells:
-        spell_lib = GAME_DATE.get("spells", {})
+        spell_lib = GAME_DATA.get("spells", {})
         for element in chosen_spells:
             element_spells = spell_lib.get(element, [])
             hero.spells.extend(element_spells)

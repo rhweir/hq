@@ -2,8 +2,16 @@
   "heroes": {
     "Barbarian": { "hp": 8, "mp": 2, "attack": 0, "defend": 2, "primary_weapon": "Broadsword" },
     "Dwarf": { "hp": 7, "mp": 3, "attack": 0, "defend": 2, "primary_weapon": "Shortsword" },
-    "Elf": { "hp": 6, "mp": 4, "attack": 0, "defend": 2, "primary_weapon": "Shortsword" },
-    "Wizard": { "hp": 4, "mp": 6, "attack": 0, "defend": 2, "primary_weapon": "Dagger" }
+    "Elf": { 
+      "hp": 6, "mp": 4, "attack": 0, "defend": 2, 
+      "primary_weapon": "Shortsword", 
+      "is_spellcaster": true 
+    },
+    "Wizard": { 
+      "hp": 4, "mp": 6, "attack": 0, "defend": 2, 
+      "primary_weapon": "Dagger", 
+      "is_spellcaster": true 
+    }
   },
   "monsters": {
     "Goblin": { "movement": 10, "attack": 2, "defend": 1, "hp": 1, "mp": 1 },
@@ -14,6 +22,28 @@
     "Mummy": { "movement": 4, "attack": 3, "defend": 4, "hp": 1, "mp": 0 },
     "Chaos Warrior": { "movement": 6, "attack": 4, "defend": 4, "hp": 1, "mp": 3 },
     "Gargoyle": { "movement": 6, "attack": 4, "defend": 5, "hp": 1, "mp": 4 }
+  },
+  "spells": {
+    "Air": [
+      { "name": "Genie", "type": "Attack", "dice": 5 },
+      { "name": "Swift Wind", "type": "Buff" },
+      { "name": "Tempest", "type": "CC" }
+    ],
+    "Earth": [
+      { "name": "Heal Body", "type": "Heal", "value": 4 },
+      { "name": "Pass Through Rock", "type": "Utility" },
+      { "name": "Rock Skin", "type": "Buff", "bonus": 1 }
+    ],
+    "Fire": [
+      { "name": "Ball of Flame", "type": "Attack", "damage": 2 },
+      { "name": "Courage", "type": "Buff", "bonus": 2 },
+      { "name": "Fire of Wrath", "type": "Attack", "damage": 1 }
+    ],
+    "Water": [
+      { "name": "Sleep", "type": "CC" },
+      { "name": "Veil of Mist", "type": "Buff" },
+      { "name": "Water of Healing", "type": "Heal", "value": 4 }
+    ]
   },
   "weapons": {
     "Dagger": { "cost": 25, "attack_bonus": 1, "diagonal": false, "thrown": true, "wizard_ok": true },
