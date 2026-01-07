@@ -51,6 +51,10 @@ class Entity:
         return self.hp > 0
 
     def perform_attack(self, target):
+        if not self.is_adjacent(target):
+            print(f"!!! {target.char_class} is too far away to attack! !!!")
+            return
+
         attack_dice = self.calculate_attack_dice()
         attack_results = Dice.combat(attack_dice)
         skulls = attack_results["skulls"]
@@ -190,6 +194,12 @@ def spawn_hero(hero_name, class_type, x=0, y=0, chosen_spells=None):
         y=y,
         primary_weapon=template.get("primary_weapon", "Unarmed"),
     )
+
+    if class_type == "Wizard":
+        for slot, item in hero.slots.items():
+            if not item.get("wizard_ok", True):
+                print(f"Illegal Armour: Wizard cannot wear {slot}. Removing.")
+                hero.slots[slot] = GAME_DATA["armour"]["Empty"]
 
     if template.get("is_spellcaster") and chosen_spells:
         spell_lib = GAME_DATA.get("spells", {})
