@@ -60,5 +60,9 @@
     "Chain Mail": { "cost": 450, "defence_bonus": 1, "wizard_ok": false, "slot": "body" },
     "Plate Mail": { "cost": 500, "defence_bonus": 2, "wizard_ok": false, "move_penalty": 1, "slot": "body" },
     "Empty": { "cost": 0, "defence_bonus": 0, "wizard_ok": true, "slot": null }
+  },
+  "items": {
+    "Potion of Healing": { "cost": 100, "hp_restore": "1d6", "description": "Restores 1-6 HP" },
+    "Potion of Strength": { "cost": 150, "attack_bonus": 2, "duration": "1_turn" }
   }
 }

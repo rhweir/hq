@@ -1,0 +1,133 @@
+{
+    "gold": 37,
+    "dungeon_num": 6,
+    "inventory": [
+        "Potion of Healing",
+        "Potion of Healing",
+        "Potion of Healing",
+        "Potion of Healing",
+        "Potion of Healing",
+        "Potion of Healing",
+        "Potion of Healing",
+        "Potion of Healing",
+        "Potion of Healing",
+        "Potion of Healing",
+        "Potion of Healing"
+    ],
+    "party": [
+        {
+            "name": "Sigurd",
+            "class": "Barbarian",
+            "hp": 5,
+            "mp": 2,
+            "weapon_name": "Broadsword",
+            "slots": {
+                "head": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                },
+                "body": {
+                    "cost": 500,
+                    "defence_bonus": 2,
+                    "wizard_ok": false,
+                    "move_penalty": 1,
+                    "slot": "body",
+                    "name": "Plate Mail"
+                },
+                "off_hand": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                }
+            },
+            "spells": []
+        },
+        {
+            "name": "Gimli",
+            "class": "Dwarf",
+            "hp": 5,
+            "mp": 3,
+            "weapon_name": "Battle Axe",
+            "slots": {
+                "head": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                },
+                "body": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                },
+                "off_hand": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                }
+            },
+            "spells": []
+        },
+        {
+            "name": "Legolas",
+            "class": "Elf",
+            "hp": 6,
+            "mp": 4,
+            "weapon_name": "Shortsword",
+            "slots": {
+                "head": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                },
+                "body": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                },
+                "off_hand": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                }
+            },
+            "spells": []
+        },
+        {
+            "name": "Gandalf",
+            "class": "Wizard",
+            "hp": 4,
+            "mp": 6,
+            "weapon_name": "Staff",
+            "slots": {
+                "head": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                },
+                "body": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                },
+                "off_hand": {
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
+                }
+            },
+            "spells": []
+        }
+    ]
+}
