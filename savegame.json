@@ -1,26 +1,14 @@
 {
-    "gold": 37,
-    "dungeon_num": 6,
-    "inventory": [
-        "Potion of Healing",
-        "Potion of Healing",
-        "Potion of Healing",
-        "Potion of Healing",
-        "Potion of Healing",
-        "Potion of Healing",
-        "Potion of Healing",
-        "Potion of Healing",
-        "Potion of Healing",
-        "Potion of Healing",
-        "Potion of Healing"
-    ],
+    "gold": 214,
+    "dungeon_num": 3,
+    "inventory": [],
     "party": [
         {
             "name": "Sigurd",
             "class": "Barbarian",
-            "hp": 5,
+            "hp": 8,
             "mp": 2,
-            "weapon_name": "Broadsword",
+            "weapon_name": "Shortsword",
             "slots": {
                 "head": {
                     "cost": 0,
@@ -29,12 +17,10 @@
                     "slot": null
                 },
                 "body": {
-                    "cost": 500,
-                    "defence_bonus": 2,
-                    "wizard_ok": false,
-                    "move_penalty": 1,
-                    "slot": "body",
-                    "name": "Plate Mail"
+                    "cost": 0,
+                    "defence_bonus": 0,
+                    "wizard_ok": true,
+                    "slot": null
                 },
                 "off_hand": {
                     "cost": 0,
@@ -48,9 +34,9 @@
         {
             "name": "Gimli",
             "class": "Dwarf",
-            "hp": 5,
+            "hp": 7,
             "mp": 3,
-            "weapon_name": "Battle Axe",
+            "weapon_name": "Dagger",
             "slots": {
                 "head": {
                     "cost": 0,
@@ -78,7 +64,7 @@
             "class": "Elf",
             "hp": 6,
             "mp": 4,
-            "weapon_name": "Shortsword",
+            "weapon_name": "Dagger",
             "slots": {
                 "head": {
                     "cost": 0,
@@ -106,7 +92,7 @@
             "class": "Wizard",
             "hp": 4,
             "mp": 6,
-            "weapon_name": "Staff",
+            "weapon_name": "Dagger",
             "slots": {
                 "head": {
                     "cost": 0,
