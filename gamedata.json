@@ -1,27 +1,107 @@
 {
   "heroes": {
-    "Barbarian": { "hp": 8, "mp": 2, "attack": 0, "defend": 2, "primary_weapon": "Broadsword" },
-    "Dwarf": { "hp": 7, "mp": 3, "attack": 0, "defend": 2, "primary_weapon": "Shortsword" },
+    "Barbarian": {
+      "hp": 8,
+      "mp": 2,
+      "attack": 0,
+      "defend": 2,
+      "primary_weapon": "Broadsword",
+      "alignment": "Light"},
+      "is_spellcaster": false
+    },
+    "Dwarf": {
+      "hp": 7,
+      "mp": 3,
+      "attack": 0,
+      "defend": 2,
+      "primary_weapon": "Shortsword",
+      "alignment": "Light",
+      "is_spellcaster": false
+    },
     "Elf": { 
-      "hp": 6, "mp": 4, "attack": 0, "defend": 2, 
+      "hp": 6,
+      "mp": 4,
+      "attack": 0,
+      "defend": 2, 
       "primary_weapon": "Shortsword", 
+      "alignment": "Light",
       "is_spellcaster": true 
     },
     "Wizard": { 
-      "hp": 4, "mp": 6, "attack": 0, "defend": 2, 
-      "primary_weapon": "Dagger", 
+      "hp": 4,
+      "mp": 6,
+      "attack": 0,
+      "defend": 2, 
+      "primary_weapon": "Dagger",
+      "alignment": "Light",
       "is_spellcaster": true 
-    }
-  },
+    },
+  
   "monsters": {
-    "Goblin": { "movement": 10, "attack": 2, "defend": 1, "hp": 1, "mp": 1 },
-    "Skeleton": { "movement": 6, "attack": 2, "defend": 2, "hp": 1, "mp": 0 },
-    "Zombie": { "movement": 5, "attack": 2, "defend": 3, "hp": 1, "mp": 0 },
-    "Orc": { "movement": 8, "attack": 3, "defend": 2, "hp": 1, "mp": 2 },
-    "Fimir": { "movement": 6, "attack": 3, "defend": 3, "hp": 1, "mp": 3 },
-    "Mummy": { "movement": 4, "attack": 3, "defend": 4, "hp": 1, "mp": 0 },
-    "Chaos Warrior": { "movement": 6, "attack": 4, "defend": 4, "hp": 1, "mp": 3 },
-    "Gargoyle": { "movement": 6, "attack": 4, "defend": 5, "hp": 1, "mp": 4 }
+    "Goblin": {
+      "movement": 10,
+      "attack": 2,
+      "defend": 1,
+      "hp": 1,
+      "mp": 1,
+      "alignment": "Dark"
+    },
+    "Skeleton": {
+      "movement": 6, 
+      "attack": 2, 
+      "defend": 2, 
+      "hp": 1, 
+      "mp": 0, 
+      "alignment": "Dark"
+    },
+    "Zombie": {
+      "movement": 5, 
+      "attack": 2, 
+      "defend": 3, 
+      "hp": 1, 
+      "mp": 0, 
+      "alignment": "Dark"
+    },
+    "Orc": {
+      "movement": 8, 
+      "attack": 3, 
+      "defend": 2, 
+      "hp": 1, 
+      "mp": 2, 
+      "alignment": "Dark"
+    },
+    "Fimir": {
+      "movement": 6, 
+      "attack": 3, 
+      "defend": 3, 
+      "hp": 1, 
+      "mp": 3, 
+      "alignment": "Dark"
+    },
+    "Mummy": {
+      "movement": 4, 
+      "attack": 3, 
+      "defend": 4, 
+      "hp": 1, 
+      "mp": 0, 
+      "alignment": "Dark"
+    },
+    "Chaos Warrior": {
+      "movement": 6, 
+      "attack": 4, 
+      "defend": 4, 
+      "hp": 1, 
+      "mp": 3, 
+      "alignment": "Dark"
+    },
+    "Gargoyle": {
+      "movement": 6, 
+      "attack": 4, 
+      "defend": 5, 
+      "hp": 1, 
+      "mp": 4, 
+      "alignment": "Dark"
+    }
   },
   "spells": {
     "Air": [

@@ -93,7 +93,7 @@ class Monster(Entity):
         self.defence_key = "black_shields"
 
 
-class Hero(Entity):
+class Hero(Entity):__
     """Hero with equipment and rolling logic"""
 
     def __init__(
